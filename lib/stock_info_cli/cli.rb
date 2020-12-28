@@ -32,7 +32,7 @@ class CLI < API
 
         puts ""
 
-        puts "Website: \n#{stock.website}"
+        puts "City: \n#{stock.city}"
 
         puts "-------------------"
         puts ""
