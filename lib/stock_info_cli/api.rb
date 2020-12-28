@@ -27,8 +27,10 @@ class API
     def create_stock(body)
         information = JSON.parse(body)
         stock = Stock.new(information["summaryProfile"]["longBusinessSummary"], information["quoteType"]["shortName"])
-        # puts(information["summaryProfile"]["longBusinessSummary"])
-        # puts(information["quoteType"]["shortName"])
+        stock.sector = information["summaryProfile"]["sector"]
+        stock.city = information["summaryProfile"]["city"]
+        stock.country = information["summaryProfile"]["country"]
+        stock.website = information["summaryProfile"]["website"]
         return stock
     end
 end
