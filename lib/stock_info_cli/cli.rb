@@ -18,7 +18,7 @@ class CLI <  API
     end
 
     def display_info
-        # stock = create_stock
+        # stock = Stock.all
 
         # puts "Name: #{stock.short_name}"
 
