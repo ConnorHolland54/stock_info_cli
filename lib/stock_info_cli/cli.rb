@@ -14,7 +14,7 @@ class CLI < API
         display_info(Stock.all.first)
 
 
-        puts "Would you like to search another stock? Type a ticker symbol to search for another stock or 'n' to quit."
+        puts "What would you like to do next? Type 'ls' for a list of additional information regarding the current stock. Type 'new' to enter a new ticker symbol to search for or 'q' to quit."
         menu
     end
 
@@ -30,11 +30,8 @@ class CLI < API
 
         puts "Summary: \n#{stock.long_business_summary}"
 
-        puts ""
-
-        puts "City: \n#{stock.city}"
-
         puts "-------------------"
+
         puts ""
 
     end
@@ -52,18 +49,24 @@ class CLI < API
         puts "Have a great day!"
     end
 
-    def search_again(selection)
-        get_info(selection)
-        display_info
-        puts "Would you like to search another stock? Type a ticker symbol to search for another stock or 'n' to quit."
+    def search_again
+        puts "Please enter a new ticker symbol."
+        input = user_input
+        get_info(input)
+        display_info(Stock.all.first)
+        puts "What would you like to do next? Type 'ls' for a list of additional information regarding the current stock. Type 'new' to enter a new ticker symbol to search for or 'q' to quit."
         menu
     end
 
     def menu
         selection = user_input
-        if selection != 'n'
-            search_again(selection)
-        elsif selection = 'n'
+        if selection == "ls"
+            #show list of additional data
+        elsif selection == 'new'
+            #search for a new symbol
+            search_again
+        elsif selection == 'q'
+            #quit program
             exit_program
         else
             invalid
