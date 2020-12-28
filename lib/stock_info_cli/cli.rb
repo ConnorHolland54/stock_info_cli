@@ -1,4 +1,5 @@
 require_relative 'api.rb'
+require_relative 'stock.rb'
 
 class CLI <  API
 
@@ -13,18 +14,24 @@ class CLI <  API
         display_info
 
 
-        puts "Would you like to search another stock? Type 'y' to search for another stock or 'n' to quit."
+        puts "Would you like to search another stock? Type a ticker symbol to search for another stock or 'n' to quit."
         menu
     end
 
     def display_info
-        # stock = Stock.all
+        stock = Stock.all.first
+        puts ""
 
-        # puts "Name: #{stock.short_name}"
+        puts "-------------------"
 
-        # puts "-------------------"
+        puts "Name: \n#{stock.short_name}"
 
-        # puts "Summary: #{stock.long_business_summary}"
+        puts ""
+
+        puts "Summary: \n#{stock.long_business_summary}"
+
+        puts "-------------------"
+        puts ""
 
     end
 
@@ -41,15 +48,20 @@ class CLI <  API
         puts "Have a great day!"
     end
 
+    def search_again(selection)
+        get_info(selection)
+        display_info
+        puts "Would you like to search another stock? Type a ticker symbol to search for another stock or 'n' to quit."
+        menu
+    end
+
     def menu
         selection = user_input
-        if selection == 'y'
-            #search for another stock
-        elsif selection == 'n'
-            #leaves the program
+        if selection != 'n'
+            search_again(selection)
+        elsif selection = 'n'
             exit_program
         else
-            #invalid choice
             invalid
         end
     end
