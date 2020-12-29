@@ -12,12 +12,6 @@ class CLI
 
         #display stock info
         display_info(Stock.all.first)
-        # if Stock.all.length != 1
-        #     display_info(Stock.all.first)
-        # else
-        #     puts "Invalid ticker symbol"
-        # end
-
 
         puts "What would you like to do next? Type 'ls' for a list of additional information regarding the current stock. Type 'new' to enter a new ticker symbol to search for or 'q' to quit."
         menu
