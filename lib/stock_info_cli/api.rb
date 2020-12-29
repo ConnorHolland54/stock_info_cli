@@ -21,16 +21,33 @@ class API
         response = http.request(request)
         response.read_body
 
-        create_stock(response.read_body)
+        if valid_json?(response.read_body) == false
+            puts "Invalid ticker symbol, please enter a new one."
+            input = gets.strip
+            get_info(input)
+        else
+            create_stock(response.read_body)
+        end
     end
 
     def create_stock(body)
-        information = JSON.parse(body)
-        stock = Stock.new(information["summaryProfile"]["longBusinessSummary"], information["quoteType"]["shortName"])
-        stock.sector = information["summaryProfile"]["sector"]
-        stock.city = information["summaryProfile"]["city"]
-        stock.country = information["summaryProfile"]["country"]
-        stock.website = information["summaryProfile"]["website"]
-        return stock
+            information = JSON.parse(body)
+            stock = Stock.new(information["summaryProfile"]["longBusinessSummary"], information["quoteType"]["shortName"])
+            stock.sector = information["summaryProfile"]["sector"]
+            stock.city = information["summaryProfile"]["city"]
+            stock.country = information["summaryProfile"]["country"]
+            stock.website = information["summaryProfile"]["website"]
+            return stock
     end
+
+    def valid_json?(string)
+        !!JSON.parse(string)
+      rescue JSON::ParserError
+        false
+    end
+
+    
+
+
+
 end

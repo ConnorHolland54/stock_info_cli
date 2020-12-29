@@ -12,6 +12,11 @@ class CLI < API
 
         #display stock info
         display_info(Stock.all.first)
+        # if Stock.all.length != 1
+        #     display_info(Stock.all.first)
+        # else
+        #     puts "Invalid ticker symbol"
+        # end
 
 
         puts "What would you like to do next? Type 'ls' for a list of additional information regarding the current stock. Type 'new' to enter a new ticker symbol to search for or 'q' to quit."
@@ -50,6 +55,7 @@ class CLI < API
     end
 
     def search_again
+        Stock.all.clear
         puts "Please enter a new ticker symbol."
         input = user_input
         get_info(input)
@@ -58,10 +64,41 @@ class CLI < API
         menu
     end
 
+    def display_list
+        puts ""
+        puts "1. sector\n2. location\n3. website"
+        puts ""
+        puts "Please select a choice by number. ex. for sector type 1"
+        input = user_input
+        list_info(input.to_i)
+    end
+
+    def list_info(option)
+        case option
+        when 1
+            puts ""
+            puts "Sector:\n#{Stock.all.first.sector}"
+            puts ""
+        when 2
+            puts ""
+            puts "City:\n#{Stock.all.first.city}"
+            puts ""
+            puts "Country:\n#{Stock.all.first.country}"
+            puts ""
+        when 3
+            puts ""
+            puts "Website:\n#{Stock.all.first.website}"
+            puts ""
+        end
+        puts "What would you like to do next? Type 'ls' for a list of additional information regarding the current stock. Type 'new' to enter a new ticker symbol to search for or 'q' to quit."
+        menu
+    end
+            
     def menu
         selection = user_input
         if selection == "ls"
             #show list of additional data
+            display_list
         elsif selection == 'new'
             #search for a new symbol
             search_again

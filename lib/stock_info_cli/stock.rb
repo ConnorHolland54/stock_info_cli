@@ -1,6 +1,6 @@
 
 class Stock
-    attr_accessor :long_business_summary, :short_name, :sector, :country, :city, :location, :website
+    attr_accessor :long_business_summary, :short_name, :sector, :country, :city, :website
 
     @@all = []
 
