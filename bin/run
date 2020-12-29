@@ -2,7 +2,5 @@
 
 require_relative '../lib/environment.rb'
 
-# CLI.new.start
-binding.pry
-puts ENV['X_RAPIDAPI_KEY']
+CLI.new.start
 
