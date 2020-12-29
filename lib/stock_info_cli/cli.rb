@@ -1,14 +1,14 @@
 require_relative 'api.rb'
 require_relative 'stock.rb'
 
-class CLI < API
+class CLI
 
     #method that behaves as entry point to cli
     def start
         puts "Welcome to Stock Info!"
         puts "Please enter a ticker symbol to see basic information about the stock."
         ticker = user_input
-        get_info(ticker.upcase)
+        API.get_info(ticker.upcase)
 
         #display stock info
         display_info(Stock.all.first)
@@ -58,7 +58,7 @@ class CLI < API
         Stock.all.clear
         puts "Please enter a new ticker symbol."
         input = user_input
-        get_info(input)
+        API.get_info(input)
         display_info(Stock.all.first)
         puts "What would you like to do next? Type 'ls' for a list of additional information regarding the current stock. Type 'new' to enter a new ticker symbol to search for or 'q' to quit."
         menu
