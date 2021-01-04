@@ -11,7 +11,6 @@ class Stock
     end
 
     def save
-        @@all = []
         @@all << self
     end
 
