@@ -3,18 +3,33 @@ require_relative 'stock.rb'
 
 class CLI
 
+    @@current_ticker = ""
+
     #method that behaves as entry point to cli
     def start
         puts "Welcome to Stock Info!"
         puts "Please enter a ticker symbol to see basic information about the stock."
-        ticker = user_input
-        API.get_info(ticker.upcase)
+        ticker = user_input.upcase
 
-        #display stock info
-        display_info(Stock.all.first)
+        stock_exists?(ticker)
 
         puts "What would you like to do next? Type 'ls' for a list of additional information regarding the current stock. Type 'new' to enter a new ticker symbol to search for or 'q' to quit."
         menu
+    end
+
+    def current_stock(ticker)
+        stock = Stock.all.find {|stock| stock.ticker == ticker}
+        @@current_ticker = ticker
+        stock
+    end
+
+    def stock_exists?(ticker)
+        if current_stock(ticker) != nil
+            display_info(current_stock(ticker))
+        else
+            API.get_info(ticker)
+            display_info(current_stock(ticker))
+        end
     end
 
     def display_info(stock)
@@ -49,11 +64,9 @@ class CLI
     end
 
     def search_again
-        Stock.all.clear
         puts "Please enter a new ticker symbol."
-        input = user_input
-        API.get_info(input)
-        display_info(Stock.all.first)
+        ticker = user_input.upcase
+        stock_exists?(ticker)
         puts "What would you like to do next? Type 'ls' for a list of additional information regarding the current stock. Type 'new' to enter a new ticker symbol to search for or 'q' to quit."
         menu
     end
@@ -71,17 +84,17 @@ class CLI
         case option
         when 1
             puts ""
-            puts "Sector:\n#{Stock.all.first.sector}"
+            puts "Sector:\n#{current_stock(@@current_ticker).sector}"
             puts ""
         when 2
             puts ""
-            puts "City:\n#{Stock.all.first.city}"
+            puts "City:\n#{current_stock(@@current_ticker).city}"
             puts ""
-            puts "Country:\n#{Stock.all.first.country}"
+            puts "Country:\n#{current_stock(@@current_ticker).country}"
             puts ""
         when 3
             puts ""
-            puts "Website:\n#{Stock.all.first.website}"
+            puts "Website:\n#{current_stock(@@current_ticker).website}"
             puts ""
         end
         puts "What would you like to do next? Type 'ls' for a list of additional information regarding the current stock. Type 'new' to enter a new ticker symbol to search for or 'q' to quit."
@@ -96,6 +109,7 @@ class CLI
         elsif selection == 'new'
             #search for a new symbol
             search_again
+            # binding.pry
         elsif selection == 'q'
             #quit program
             exit_program
@@ -103,8 +117,4 @@ class CLI
             invalid
         end
     end
-        
-
-
-
 end

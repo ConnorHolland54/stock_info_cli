@@ -26,17 +26,18 @@ class API
             input = gets.strip
             get_info(input)
         else
-            create_stock(response.read_body)
+            create_stock(response.read_body, ticker)
         end
     end
 
-    def self.create_stock(body)
+    def self.create_stock(body, ticker)
             information = JSON.parse(body)
             stock = Stock.new(information["summaryProfile"]["longBusinessSummary"], information["quoteType"]["shortName"])
             stock.sector = information["summaryProfile"]["sector"]
             stock.city = information["summaryProfile"]["city"]
             stock.country = information["summaryProfile"]["country"]
             stock.website = information["summaryProfile"]["website"]
+            stock.ticker = ticker
             return stock
     end
 
